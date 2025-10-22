@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface WalletRepo extends JpaRepository<Wallet, Long> {
+    @Query("select w from Wallet w where w.user.username = :u")
     Optional<Wallet> findByUserUsername(String username);
 
     @Lock(LockModeType.OPTIMISTIC)
