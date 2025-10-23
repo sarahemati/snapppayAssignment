@@ -6,6 +6,7 @@ import com.sarahemmati.wallet.domain.Wallet;
 import com.sarahemmati.wallet.domain.enums.OperationType;
 import com.sarahemmati.wallet.infra.repository.LedgerRepo;
 import com.sarahemmati.wallet.infra.repository.WalletRepo;
+import jakarta.annotation.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,14 +33,22 @@ public class WalletService {
         return new WalletView(username, w.getBalance(), items);
     }
 
+
+
     @Transactional
-    public void deposit(String username, BigDecimal amount){
+    public void deposit(String username, BigDecimal amount, @Nullable String ref){
         if (amount == null || amount.signum() <= 0) throw new IllegalArgumentException("AMOUNT_INVALID");
-        Wallet w = walletRepo.findByUsernameForUpdate(username).orElseThrow(() -> new IllegalArgumentException("WALLET_NOT_FOUND"));
+        if (ref != null && ledgerRepo.existsByRef(ref)) return; // idempotent
+
+        Wallet w = walletRepo.findByUserUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("WALLET_NOT_FOUND"));
         w.credit(amount);
         walletRepo.save(w);
-        ledgerRepo.save(LedgerEntry.of(w, amount, OperationType.DEPOSIT, UUID.randomUUID().toString()));
+
+        String useRef = (ref != null && !ref.isBlank()) ? ref : UUID.randomUUID().toString();
+        ledgerRepo.save(LedgerEntry.of(w, amount, OperationType.DEPOSIT, useRef));
     }
+
 
     @Transactional
     public void transfer(String fromUsername, String toUsername, BigDecimal amount, String ref){

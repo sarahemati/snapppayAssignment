@@ -10,7 +10,13 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name="LEDGER", indexes = @Index(name="ix_ledger_ref", columnList="ref", unique = true))
+@Table(
+        name = "LEDGER",
+        indexes = {
+                @Index(name = "ix_ledger_wallet_ref", columnList = "wallet_id, ref", unique = true),
+                @Index(name = "ix_ledger_ref", columnList = "ref")
+        }
+)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)

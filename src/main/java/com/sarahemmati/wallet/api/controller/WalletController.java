@@ -23,8 +23,10 @@ public class WalletController {
     }
 
     @PostMapping("/deposit")
-    public void deposit(Authentication auth, @RequestBody AmountReq req){
-        wallet.deposit(auth.getName(), req.amount());
+    public void deposit(Authentication auth,
+                        @RequestHeader(value="X-Idempotency-Key", required=false) String ref,
+                        @RequestBody AmountReq req){
+        wallet.deposit(auth.getName(), req.amount(), ref);
     }
 
     @PostMapping("/transfer")
