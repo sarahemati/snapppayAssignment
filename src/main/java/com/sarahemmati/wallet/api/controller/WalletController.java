@@ -1,16 +1,12 @@
 package com.sarahemmati.wallet.api.controller;
 
 
-import com.sarahemmati.wallet.api.controller.dto.AmountReq;
-import com.sarahemmati.wallet.api.controller.dto.TransferReq;
+import com.sarahemmati.wallet.api.dto.AmountReq;
+import com.sarahemmati.wallet.api.dto.TransferReq;
 import com.sarahemmati.wallet.application.services.WalletService;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @RestController

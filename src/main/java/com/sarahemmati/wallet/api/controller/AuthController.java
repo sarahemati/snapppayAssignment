@@ -1,7 +1,7 @@
 package com.sarahemmati.wallet.api.controller;
 
-import com.sarahemmati.wallet.api.controller.dto.LoginReq;
-import com.sarahemmati.wallet.api.controller.dto.SignupReq;
+import com.sarahemmati.wallet.api.dto.LoginReq;
+import com.sarahemmati.wallet.api.dto.SignupReq;
 import com.sarahemmati.wallet.application.services.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

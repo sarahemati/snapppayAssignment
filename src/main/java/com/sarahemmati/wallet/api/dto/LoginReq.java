@@ -1,4 +1,4 @@
-package com.sarahemmati.wallet.api.controller.dto;
+package com.sarahemmati.wallet.api.dto;
 
 import jakarta.validation.constraints.NotBlank;
 

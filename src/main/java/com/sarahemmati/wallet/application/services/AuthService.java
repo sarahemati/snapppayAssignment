@@ -1,8 +1,8 @@
 package com.sarahemmati.wallet.application.services;
 
 
-import com.sarahemmati.wallet.api.controller.dto.LoginReq;
-import com.sarahemmati.wallet.api.controller.dto.SignupReq;
+import com.sarahemmati.wallet.api.dto.LoginReq;
+import com.sarahemmati.wallet.api.dto.SignupReq;
 import com.sarahemmati.wallet.application.JwtUtil;
 import com.sarahemmati.wallet.domain.User;
 import com.sarahemmati.wallet.domain.Wallet;
