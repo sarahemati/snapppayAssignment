@@ -9,7 +9,7 @@ create table users(
                       updated_at timestamp
 );
 
--- WALLET (یک-به-یک با کاربر)
+-- WALLET
 create table wallet(
                        id bigserial primary key,
                        version int,
@@ -35,5 +35,4 @@ create table ledger(
 
 -- Idempotency scoped to wallet
 create unique index ix_ledger_wallet_ref on ledger(wallet_id, ref);
--- (اختیاری) برای جستجو
 create index ix_ledger_ref on ledger(ref);

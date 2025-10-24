@@ -18,9 +18,12 @@ import java.util.UUID;
 public class WalletService {
     private final WalletRepo walletRepo;
     private final LedgerRepo ledgerRepo;
+    private final AuditService audit;
 
-    public WalletService(WalletRepo walletRepo, LedgerRepo ledgerRepo){
+
+    public WalletService(WalletRepo walletRepo, LedgerRepo ledgerRepo, AuditService audit){
         this.walletRepo = walletRepo; this.ledgerRepo = ledgerRepo;
+        this.audit = audit;
     }
 
     public record WalletView(String username, BigDecimal balance, List<LedgerItem> lastLedger){}
@@ -37,16 +40,15 @@ public class WalletService {
 
 
     @Transactional
-    public void deposit(String username, BigDecimal amount, @Nullable String ref){
+    public void deposit(String username, BigDecimal amount, @Nullable String ref, String requestId){
         if (amount == null || amount.signum() <= 0) throw new IllegalArgumentException("AMOUNT_INVALID");
 
         Wallet w = walletRepo.findByUserUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("WALLET_NOT_FOUND"));
 
-        if (ref != null && !ref.isBlank()) {
-            if (ledgerRepo.existsByWalletIdAndRef(w.getId(), ref)) {
-                return;
-            }
+        if (ref != null && !ref.isBlank() && ledgerRepo.existsByWalletIdAndRef(w.getId(), ref)) {
+            audit.log(username, OperationType.DEPOSIT, amount, ref, "IDEMPOTENT", requestId);
+            return;
         }
 
         w.credit(amount);
@@ -54,12 +56,14 @@ public class WalletService {
 
         String useRef = (ref != null && !ref.isBlank()) ? ref : UUID.randomUUID().toString();
         ledgerRepo.save(LedgerEntry.of(w, amount, OperationType.DEPOSIT, useRef));
+        audit.log(username, OperationType.DEPOSIT, amount, useRef, "OK", requestId);
+
     }
 
 
 
     @Transactional
-    public void transfer(String fromUsername, String toUsername, BigDecimal amount, String ref){
+    public void transfer(String fromUsername, String toUsername, BigDecimal amount, String ref, String requestId){
         if (amount == null || amount.signum() <= 0) throw new IllegalArgumentException("AMOUNT_INVALID");
         if (fromUsername.equals(toUsername)) throw new IllegalArgumentException("SAME_WALLET");
 
@@ -75,5 +79,9 @@ public class WalletService {
 
         ledgerRepo.save(LedgerEntry.of(from, amount.negate(), OperationType.TRANSFER_OUT, ref));
         ledgerRepo.save(LedgerEntry.of(to, amount,          OperationType.TRANSFER_IN,  ref));
+
+        audit.log(fromUsername, OperationType.TRANSFER, amount, ref, "to="+toUsername, requestId);
+
+
     }
 }
