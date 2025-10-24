@@ -19,15 +19,17 @@ public class JwtUtil {
     private final long ttlMs;
 
     public JwtUtil(
-            @Value("${app.jwt.secret}") String base64Secret,
+            @Value("${app.jwt.secret:}") String base64Secret,
             @Value("${app.jwt.ttl-hours:6}") long ttlHours) {
-
-        byte[] keyBytes = Decoders.BASE64.decode(base64Secret);
-        if (keyBytes.length < 32) {
-            throw new IllegalArgumentException("JWT secret must be at least 256 bits (32 bytes) after Base64 decoding.");
+        if (base64Secret == null || base64Secret.isBlank()) {
+            throw new IllegalStateException("Missing property 'app.jwt.secret'. Set it in application-<profile>.properties or pass -Dapp.jwt.secret=...");
         }
-        this.key = Keys.hmacShaKeyFor(keyBytes);
-        this.ttlMs = Duration.ofHours(ttlHours).toMillis();
+        byte[] keyBytes = io.jsonwebtoken.io.Decoders.BASE64.decode(base64Secret);
+        if (keyBytes.length < 32) {
+            throw new IllegalArgumentException("JWT secret must be >= 32 bytes after Base64 decode.");
+        }
+        this.key = io.jsonwebtoken.security.Keys.hmacShaKeyFor(keyBytes);
+        this.ttlMs = java.time.Duration.ofHours(ttlHours).toMillis();
     }
 
     public String generate(String username){
