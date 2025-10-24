@@ -26,6 +26,7 @@ public class WalletService {
     public record WalletView(String username, BigDecimal balance, List<LedgerItem> lastLedger){}
     public record LedgerItem(String type, BigDecimal amount, String ref){}
 
+    @Transactional(readOnly = true)
     public WalletView me(String username){
         Wallet w = walletRepo.findByUserUsername(username).orElseThrow(() -> new IllegalArgumentException("WALLET_NOT_FOUND"));
         var items = ledgerRepo.findTop20ByWalletUserUsernameOrderByIdDesc(username)
@@ -38,16 +39,23 @@ public class WalletService {
     @Transactional
     public void deposit(String username, BigDecimal amount, @Nullable String ref){
         if (amount == null || amount.signum() <= 0) throw new IllegalArgumentException("AMOUNT_INVALID");
-        if (ref != null && ledgerRepo.existsByRef(ref)) return; // idempotent
 
         Wallet w = walletRepo.findByUserUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("WALLET_NOT_FOUND"));
+
+        if (ref != null && !ref.isBlank()) {
+            if (ledgerRepo.existsByWalletIdAndRef(w.getId(), ref)) {
+                return;
+            }
+        }
+
         w.credit(amount);
         walletRepo.save(w);
 
         String useRef = (ref != null && !ref.isBlank()) ? ref : UUID.randomUUID().toString();
         ledgerRepo.save(LedgerEntry.of(w, amount, OperationType.DEPOSIT, useRef));
     }
+
 
 
     @Transactional

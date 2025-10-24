@@ -7,5 +7,8 @@ import java.util.List;
 
 public interface LedgerRepo extends JpaRepository<LedgerEntry, Long> {
     boolean existsByRef(String ref);
+
+    boolean existsByWalletIdAndRef(Long walletId, String ref);
+
     List<LedgerEntry> findTop20ByWalletUserUsernameOrderByIdDesc(String username);
 }

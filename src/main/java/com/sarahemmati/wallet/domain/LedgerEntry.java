@@ -17,6 +17,7 @@ import java.math.BigDecimal;
                 @Index(name = "ix_ledger_ref", columnList = "ref")
         }
 )
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
