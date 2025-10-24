@@ -1,0 +1,7 @@
+package com.sarahemmati.wallet.api.controller.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record SignupReq(@NotBlank String username, @Size(min=6) String password){}
+

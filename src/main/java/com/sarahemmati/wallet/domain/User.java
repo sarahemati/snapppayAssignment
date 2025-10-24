@@ -2,6 +2,7 @@ package com.sarahemmati.wallet.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -14,6 +15,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class User extends BaseEntity {
+
+    @OneToOne(mappedBy = "user")
+    private Wallet wallet;
+
 
     @Column(nullable = false, unique = true, length = 64)
     @EqualsAndHashCode.Include

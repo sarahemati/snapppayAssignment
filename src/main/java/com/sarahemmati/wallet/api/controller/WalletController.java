@@ -1,6 +1,8 @@
 package com.sarahemmati.wallet.api.controller;
 
 
+import com.sarahemmati.wallet.api.controller.dto.AmountReq;
+import com.sarahemmati.wallet.api.controller.dto.TransferReq;
 import com.sarahemmati.wallet.application.services.WalletService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,13 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@RestController @RequestMapping("/api/wallet")
+@RestController
+@RequestMapping("/api/wallet")
 public class WalletController {
     private final WalletService wallet;
     public WalletController(WalletService wallet){ this.wallet = wallet; }
 
-    public record AmountReq(@NotNull @Positive BigDecimal amount) {}
-    public record TransferReq(@NotBlank String toUsername, @NotNull @Positive BigDecimal amount) {}
 
     @GetMapping("/me")
     public WalletService.WalletView me(Authentication auth){

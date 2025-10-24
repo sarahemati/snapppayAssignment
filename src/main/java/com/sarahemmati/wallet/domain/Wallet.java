@@ -24,7 +24,9 @@ public class Wallet extends BaseEntity {
 
     public Wallet(User user) {
         this.user = user;
+        this.balance = BigDecimal.ZERO;
     }
+
 
     public void credit(BigDecimal amt){
         requirePositive(amt);
