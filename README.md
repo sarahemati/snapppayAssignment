@@ -1,4 +1,4 @@
-# 💰 Wallet Service
+#  Wallet Service
 **Java 21 • Spring Boot 3.5 • JWT • H2 • Flyway • Maven**
 
 This project is a **wallet** providing authentication, deposits, transfers with **idempotency guarantees**, and transaction tracking with audit logs.
@@ -6,7 +6,7 @@ This assignment is developed for Snapppay company.
 
 ---
 
-## 🚀 Features
+##  Features
 - **JWT Authentication**
 - **Wallet Operations**
     - Deposit
@@ -20,7 +20,7 @@ This assignment is developed for Snapppay company.
 
 ---
 
-## 🧩 Architecture Overview
+##  Architecture Overview
 The service follows a layered architecture:
 - `domain` – entities & business rules
 - `application` – services
@@ -30,7 +30,7 @@ The service follows a layered architecture:
 
 ---
 
-## ⚙️ Installation & Setup
+## ⚙ Installation & Setup
 
 ### 1️⃣ Prerequisites
 Make sure you have:
@@ -82,7 +82,7 @@ mvn clean verify
 
 ---
 
-## 🧪 API Flow
+##  API Flow
 
 ### 1. **Signup**
 Create a new user account:
@@ -130,7 +130,7 @@ curl -s -X GET "http://127.0.0.1:8080/api/wallet/mywallet" -H "Authorization: Be
 
 ---
 
-## 🧰 Useful Endpoints
+##  Useful Endpoints
 | Endpoint | Description |
 |-----------|--------------|
 | `/api/auth/signup` | Register new user |
@@ -143,7 +143,7 @@ curl -s -X GET "http://127.0.0.1:8080/api/wallet/mywallet" -H "Authorization: Be
 
 ---
 
-## 🧱 Database Migration
+##  Database Migration
 Flyway migration scripts are located in:
 ```
 src/main/resources/db/migration
@@ -152,6 +152,6 @@ src/main/resources/db/migration
 
 ---
 
-## 🧾 License
+##  License
 This project is licensed under the MIT License.  
 Feel free to use, modify, and distribute with attribution.
