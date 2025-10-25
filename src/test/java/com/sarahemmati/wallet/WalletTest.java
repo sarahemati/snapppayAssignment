@@ -9,7 +9,6 @@ import org.springframework.test.context.ActiveProfiles;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest
 @ActiveProfiles("test")
 class WalletTest {
 
