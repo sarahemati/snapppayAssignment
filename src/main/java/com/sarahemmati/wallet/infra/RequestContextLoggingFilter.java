@@ -27,6 +27,7 @@ public class RequestContextLoggingFilter extends OncePerRequestFilter {
         String idemKey   = req.getHeader(HDR_IDEMPOTENCY);
         String user      = (req.getUserPrincipal() != null) ? req.getUserPrincipal().getName() : "-";
 
+
         MDC.put("requestId", requestId);
         MDC.put("idemKey", idemKey != null ? idemKey : "-");
         MDC.put("user", user);

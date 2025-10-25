@@ -1,5 +1,50 @@
+version: "3.8"
 services:
-  redis:
-    image: 'redis:latest'
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: wallet
+      POSTGRES_USER: wallet
+      POSTGRES_PASSWORD: wallet
     ports:
-      - '6379'
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U wallet -d wallet"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD","redis-cli","ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/wallet
+      SPRING_DATASOURCE_USERNAME: wallet
+      SPRING_DATASOURCE_PASSWORD: wallet
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_FLYWAY_ENABLED: "true"
+
+      # JWT
+      APP.JWT.SECRET: "VGhpc0lzQURldkRTZWNyZXQxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMw=="
+      APP.JWT.EXP: "7200"
+
+
+volumes:
+  pgdata:
