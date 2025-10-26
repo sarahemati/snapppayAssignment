@@ -93,6 +93,7 @@ public class WalletServiceImpl implements WalletService {
         ledgerService.record(toWallet, ref, OperationType.TRANSFER_IN, amount, requestId);
         log.info("WITHDRAW done user={}, newBalance={}", fromUsername, fromWallet.getBalance());
 
+
     }
 
 
