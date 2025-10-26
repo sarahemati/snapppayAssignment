@@ -1,4 +1,5 @@
 version: "3.8"
+
 services:
   db:
     image: postgres:16
@@ -33,18 +34,21 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    env_file:
+      - ./.env
     environment:
+      LOG_PATH: /opt/app/logs
       SPRING_PROFILES_ACTIVE: docker
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/wallet
       SPRING_DATASOURCE_USERNAME: wallet
       SPRING_DATASOURCE_PASSWORD: wallet
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
       SPRING_FLYWAY_ENABLED: "true"
-
       # JWT
-      APP.JWT.SECRET: "VGhpc0lzQURldkRTZWNyZXQxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMw=="
+      APP_JWT_SECRET: "VGhpc0lzQURldkRTZWNyZXQxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMw=="
       APP.JWT.EXP: "7200"
-
+    volumes:
+      - ./logs:/opt/app/logs   # ⬅️ اینجا باید باشد
 
 volumes:
-  pgdata:
+  pgdata:                      # ⬅️ فقط تعریف نام ولوم
