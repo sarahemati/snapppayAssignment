@@ -18,7 +18,7 @@ public class WalletController {
     public WalletController(WalletService wallet){ this.wallet = wallet; }
 
     @Operation(summary = "My wallet", description = "Balance and last 20 ledger items")
-    @GetMapping("/me")
+    @GetMapping("/mywallet")
     public WalletService.WalletView me(Authentication auth){
         return wallet.me(auth.getName());
     }
