@@ -60,7 +60,8 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public void transfer(String fromUsername, String toUsername,
                          BigDecimal amount, String ref, String requestId) {
-        log.info("transfer {}", amount);
+        log.info("WITHDRAW start user={}, amt={}, ref={}, req={}", fromUsername, amount, ref, requestId);
+
 
         if (fromUsername.equals(toUsername))
             throw new IllegalStateException("CANNOT_TRANSFER_TO_SELF");
@@ -81,6 +82,7 @@ public class WalletServiceImpl implements WalletService {
             throw new IllegalStateException("INSUFFICIENT_FUNDS");
 
         // Debit from sender
+
         fromWallet.debit(amount);
         walletRepo.save(fromWallet);
         ledgerService.record(fromWallet, ref, OperationType.TRANSFER_OUT, amount.negate(), requestId);
@@ -89,6 +91,8 @@ public class WalletServiceImpl implements WalletService {
         toWallet.credit(amount);
         walletRepo.save(toWallet);
         ledgerService.record(toWallet, ref, OperationType.TRANSFER_IN, amount, requestId);
+        log.info("WITHDRAW done user={}, newBalance={}", fromUsername, fromWallet.getBalance());
+
     }
 
 
