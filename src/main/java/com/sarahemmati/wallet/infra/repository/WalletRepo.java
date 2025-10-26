@@ -1,5 +1,6 @@
 package com.sarahemmati.wallet.infra.repository;
 
+import com.sarahemmati.wallet.domain.User;
 import com.sarahemmati.wallet.domain.Wallet;
 import io.lettuce.core.dynamic.annotation.Param;
 import jakarta.persistence.LockModeType;
@@ -16,4 +17,6 @@ public interface WalletRepo extends JpaRepository<Wallet, Long> {
     @Lock(LockModeType.OPTIMISTIC)
     @Query("select w from Wallet w where w.user.username=:username")
     Optional<Wallet> findByUsernameForUpdate(@Param("username") String username);
+
+    Optional<Object> findByUser(User user);
 }

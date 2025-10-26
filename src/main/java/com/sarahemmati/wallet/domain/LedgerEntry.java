@@ -2,10 +2,7 @@ package com.sarahemmati.wallet.domain;
 
 import com.sarahemmati.wallet.domain.enums.OperationType;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -21,6 +18,7 @@ import java.math.BigDecimal;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
+@Builder
 public class LedgerEntry extends BaseEntity {
 
     @ManyToOne(optional = false)
