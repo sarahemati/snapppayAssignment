@@ -1,6 +1,6 @@
 package com.sarahemmati.wallet;
 
-import com.sarahemmati.wallet.application.services.WalletService;
+import com.sarahemmati.wallet.application.services.impl.WalletServiceImpl;
 import com.sarahemmati.wallet.domain.User;
 import com.sarahemmati.wallet.domain.Wallet;
 import com.sarahemmati.wallet.infra.repository.UserRepo;
@@ -27,7 +27,7 @@ class TransferInsufficientIT {
     @Autowired
     WalletRepo walletRepo;
     @Autowired
-    WalletService walletService;
+    WalletServiceImpl walletService;
 
     @BeforeEach
     void setup() {

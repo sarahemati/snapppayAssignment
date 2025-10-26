@@ -3,7 +3,7 @@ package com.sarahemmati.wallet.api.controller;
 
 import com.sarahemmati.wallet.api.dto.AmountReq;
 import com.sarahemmati.wallet.api.dto.TransferReq;
-import com.sarahemmati.wallet.application.services.WalletService;
+import com.sarahemmati.wallet.application.services.impl.WalletServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
@@ -14,13 +14,13 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/wallet")
 public class WalletController {
-    private final WalletService wallet;
-    public WalletController(WalletService wallet){ this.wallet = wallet; }
+    private final WalletServiceImpl wallet;
+    public WalletController(WalletServiceImpl wallet){ this.wallet = wallet; }
 
     @Operation(summary = "My wallet", description = "Balance and last 20 ledger items")
     @GetMapping("/mywallet")
-    public WalletService.WalletView me(Authentication auth){
-        return wallet.me(auth.getName());
+    public WalletServiceImpl.WalletView me(Authentication auth){
+        return wallet.myWallet(auth.getName());
     }
 
     @Operation(summary = "Deposit", description = "Credit to your own wallet")
