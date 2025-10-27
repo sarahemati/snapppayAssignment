@@ -10,19 +10,19 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "ACCOUNT_LIMIT_USAGE", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"user_id", "date"})
+        @UniqueConstraint(columnNames = {"USER_ID", "DATE"})
 })
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class AccountLimitUsage extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
-    @Column(nullable = false)
+    @Column(name="DATE",nullable = false)
     private LocalDate date;
 
-    @Column(nullable = false)
+    @Column(name="USED_AMOUNT",nullable = false)
     private BigDecimal usedAmount;
 
     private UUID lastTxId;

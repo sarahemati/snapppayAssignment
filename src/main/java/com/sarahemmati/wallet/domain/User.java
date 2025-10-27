@@ -20,14 +20,14 @@ public class User extends BaseEntity {
     private Wallet wallet;
 
 
-    @Column(nullable = false, unique = true, length = 64)
+    @Column(name="USERNAME",nullable = false, unique = true, length = 64)
     @EqualsAndHashCode.Include
     private String username;
 
-    @Column(nullable = false, length = 200)
+    @Column(name="PASSWORD_HASH",nullable = false, length = 200)
     private String passwordHash;
 
-    @Column(nullable = false, length = 100)
+    @Column(name="ROLES",nullable = false, length = 100)
     private String roles = "ROLE_USER";
 
     public User(String username, String passwordHash, String roles) {

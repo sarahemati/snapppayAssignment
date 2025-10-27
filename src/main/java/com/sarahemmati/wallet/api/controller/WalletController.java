@@ -5,7 +5,6 @@ import com.sarahemmati.wallet.api.dto.AmountReq;
 import com.sarahemmati.wallet.api.dto.TransferReq;
 import com.sarahemmati.wallet.api.dto.WalletResponse;
 import com.sarahemmati.wallet.application.services.WalletService;
-import com.sarahemmati.wallet.domain.Wallet;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
@@ -28,8 +27,8 @@ public class WalletController {
     @Operation(summary = "Deposit", description = "Credit to your own wallet")
     @PostMapping("/deposit")
     public void deposit(Authentication auth,
-                        @RequestHeader(value="X-Idempotency-Key", required=false) String ref,
-                        @RequestHeader(value="X-Request-Id", required=false) String reqId,
+                        @RequestHeader(value="X-Idempotency-Key", required=true) String ref,
+                        @RequestHeader(value="X-Request-Id", required=true) String reqId,
                         @RequestBody @Valid AmountReq req) {
 
         wallet.deposit(auth.getName(), req.amount(), ref,reqId);
@@ -40,8 +39,8 @@ public class WalletController {
     @Operation(summary = "Transfer", description = "transfer to other user's wallet")
 
     public void transfer(Authentication auth,
-                         @RequestHeader(value="X-Idempotency-Key", required=false) String ref,
-                         @RequestHeader(value="X-Request-Id", required=false) String reqId,
+                         @RequestHeader(value="X-Idempotency-Key", required=true) String ref,
+                         @RequestHeader(value="X-Request-Id", required=true) String reqId,
                          @RequestBody @Valid TransferReq req) {
         if(ref == null || ref.isBlank()) ref = UUID.randomUUID().toString();
         wallet.transfer(auth.getName(), req.toUsername(), req.amount(), ref,reqId);

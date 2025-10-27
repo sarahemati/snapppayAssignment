@@ -20,6 +20,6 @@ public class AuditServiceImpl implements AuditService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void log(String username, OperationType operation, BigDecimal amount, String ref, String details, String requestId) {
-        repo.save(new AuditLog(Instant.now(), username, operation, amount, ref, details, requestId));
+        repo.save(new AuditLog(username, operation, amount, ref, details, requestId));
     }
 }

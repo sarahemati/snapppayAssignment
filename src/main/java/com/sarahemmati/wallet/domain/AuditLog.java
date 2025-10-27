@@ -6,45 +6,38 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 
 @Entity
 @Table(name = "AUDIT_LOG", indexes = {
-        @Index(name="ix_audit_ts", columnList = "ts"),
         @Index(name="ix_audit_user", columnList = "username")
 })
 @Getter
 @NoArgsConstructor
-public class AuditLog {
+public class AuditLog extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @Column(nullable=false)
-    private Instant ts;
-
-    @Column(nullable=false, length=64)
+    @Column(name="USERNAME",nullable=false, length=64)
     private String username;
 
-    @Column(nullable=false, length=32)
+    @Column(name="OPERATION",nullable=false, length=32)
     @Enumerated(EnumType.STRING)
     private OperationType operation;
 
-    @Column(precision=18, scale=2)
+    @Column(name="AMOUNT",precision=18, scale=2)
     private BigDecimal amount;
 
-    @Column(length=100)
-    private String ref;          // Idempotency Key یا تراکنش
+    @Column(name="REF",length=100)
+    private String ref;
 
-    @Column(length=200)
+    @Column(name="DETAILS",length=200)
     private String details;
 
-    @Column(length=40)
+    @Column(name="REQUEST_ID",length=40)
     private String requestId;
 
-    public AuditLog(Instant ts, String username, OperationType operation,
+    public AuditLog( String username, OperationType operation,
                     BigDecimal amount, String ref, String details, String requestId) {
-        this.ts = ts;
+
         this.username = username;
         this.operation = operation;
         this.amount = amount;

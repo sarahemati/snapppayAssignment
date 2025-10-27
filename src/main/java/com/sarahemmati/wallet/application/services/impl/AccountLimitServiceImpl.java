@@ -27,12 +27,7 @@ public class AccountLimitServiceImpl implements AccountLimitService {
     @Transactional
     public void checkAndConsumeLimit(User user, BigDecimal txAmount) {
         log.info("Checking limit for user {}", user);
-        var config = configRepo.findByUser(user)
-                .orElseGet(() -> configRepo.save(AccountLimitConfig.builder()
-                        .user(user)
-                        .dailyLimit(new BigDecimal("10000"))
-                        .singleTxLimit(new BigDecimal("5000"))
-                        .build()));
+        var config = configRepo.findByUser(user).orElseThrow(() -> new IllegalStateException("LIMIT_HAS_NOT_CONFIGURED"));
 
         // Check single transaction limit
         if (txAmount.compareTo(config.getSingleTxLimit()) > 0) {

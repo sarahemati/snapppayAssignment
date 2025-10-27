@@ -3,8 +3,8 @@ package com.sarahemmati.wallet.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "ACCOUNT_LIMIT_CONFIG")
@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
 public class AccountLimitConfig extends BaseEntity {
 
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    @JoinColumn(name = "USER_ID", nullable = false, unique = true)
     private User user;
 
-    @Column(nullable = false)
+    @Column(name="DAILY_LIMIT",nullable = false)
     private BigDecimal dailyLimit;
 
-    @Column(nullable = false)
+    @Column(name="SINGLE_TX_LIMIT",nullable = false)
     private BigDecimal singleTxLimit;
 
 }

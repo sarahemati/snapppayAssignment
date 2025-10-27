@@ -19,7 +19,7 @@ public class Wallet extends BaseEntity {
     @JoinColumn(name = "USER_ID", unique = true)
     private User user;
 
-    @Column(nullable=false, precision=18, scale=2)
+    @Column(name="BALANCE",nullable=false, precision=18, scale=2)
     private BigDecimal balance = BigDecimal.ZERO;
 
     public Wallet(User user) {

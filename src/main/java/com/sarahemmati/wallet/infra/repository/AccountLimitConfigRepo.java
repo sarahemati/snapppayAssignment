@@ -5,9 +5,12 @@ import com.sarahemmati.wallet.domain.AccountLimitConfig;
 import com.sarahemmati.wallet.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.lang.ScopedValue;
 import java.util.Optional;
 
 public interface AccountLimitConfigRepo extends JpaRepository<AccountLimitConfig, Long> {
 
     Optional<AccountLimitConfig> findByUser(User user);
+
+    <T> ScopedValue<T> findByUser_Username(String userUsername);
 }
