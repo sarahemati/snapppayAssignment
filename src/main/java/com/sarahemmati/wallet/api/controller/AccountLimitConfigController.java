@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/account-limits")
 @RequiredArgsConstructor
 public class AccountLimitConfigController {
-    private final UserRepo userRepo;
     private final AccountLimitConfigService service;
 
     @PostMapping

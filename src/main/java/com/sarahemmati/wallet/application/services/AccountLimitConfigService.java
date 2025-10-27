@@ -1,6 +1,5 @@
 package com.sarahemmati.wallet.application.services;
 
-import com.sarahemmati.wallet.api.dto.AccountLimitConfigRes;
 import com.sarahemmati.wallet.api.dto.CreateConfigDto;
 
 public interface AccountLimitConfigService {

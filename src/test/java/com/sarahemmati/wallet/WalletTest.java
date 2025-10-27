@@ -3,12 +3,12 @@ package com.sarahemmati.wallet;
 import com.sarahemmati.wallet.domain.User;
 import com.sarahemmati.wallet.domain.Wallet;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 @ActiveProfiles("test")
 class WalletTest {
 

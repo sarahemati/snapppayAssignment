@@ -83,11 +83,11 @@ public class WalletServiceImpl implements WalletService {
                 .orElseThrow(() -> new IllegalStateException("SENDER_WALLET_NOT_FOUND"));
         Wallet toWallet = (Wallet) walletRepo.findByUser(toUser)
                 .orElseThrow(() -> new IllegalStateException("RECEIVER_WALLET_NOT_FOUND"));
+        if (fromWallet.getBalance().compareTo(amount) < 0)
+            throw new IllegalStateException("INSUFFICIENT_FUNDS");
 
         accountLimitService.checkAndConsumeLimit(fromUser, amount);
 
-        if (fromWallet.getBalance().compareTo(amount) < 0)
-            throw new IllegalStateException("INSUFFICIENT_FUNDS");
 
         // Debit from sender
 
