@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @ActiveProfiles("test")
-
 class TransferInsufficientIT {
 
     @Autowired
@@ -35,7 +34,6 @@ class TransferInsufficientIT {
         var b = userRepo.save(new User("sara", "ph", "ROLE_USER"));
         walletRepo.save(new Wallet(a));
         walletRepo.save(new Wallet(b));
-        // شارژ اولیه علی فقط 20
         walletService.deposit("ali", new BigDecimal("20.00"), "init", "req-init");
     }
 

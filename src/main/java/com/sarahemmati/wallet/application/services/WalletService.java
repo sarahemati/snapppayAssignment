@@ -1,7 +1,6 @@
 package com.sarahemmati.wallet.application.services;
 
 import com.sarahemmati.wallet.api.dto.WalletResponse;
-import com.sarahemmati.wallet.domain.Wallet;
 import jakarta.annotation.Nullable;
 
 import java.math.BigDecimal;

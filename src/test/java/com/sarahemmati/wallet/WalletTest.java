@@ -47,7 +47,6 @@ class WalletTest {
                 () -> w.debit(new BigDecimal("60.00")));
 
         assertEquals("INSUFFICIENT_FUNDS", ex.getMessage());
-        // موجودی نباید تغییر کرده باشد
         assertEquals(0, w.getBalance().compareTo(new BigDecimal("50.00")));
     }
 
@@ -62,4 +61,6 @@ class WalletTest {
         assertThrows(IllegalArgumentException.class, () -> w.debit(new BigDecimal("0")));
         assertThrows(IllegalArgumentException.class, () -> w.debit(new BigDecimal("-1")));
     }
+
+
 }
